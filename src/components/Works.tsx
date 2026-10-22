@@ -96,7 +96,6 @@ export function Works() {
     >
       {/* Section Header */}
       <div className="relative mb-16">
-        <hr className="hr-rule mb-8" />
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <span className="micro-caps text-warm-slate mb-4 block">
@@ -181,20 +180,17 @@ export function Works() {
                           // Flat single row: all images in one grid
                           if (project.flatRow2) {
                             return (
-                              <div
-                                className="grid gap-4 lg:gap-6"
-                                style={{
-                                  gridTemplateColumns: `1fr 1fr 2fr`,
-                                  height: SIZE_HEIGHTS.lg,
-                                }}
-                              >
-                                {row2.map((src) => (
+                              <div className="grid grid-cols-2 gap-4 lg:grid-cols-[1fr_1fr_2fr] lg:gap-6 lg:h-[clamp(320px,52vh,600px)]">
+                                {row2.map((src, idx) => (
                                   <GalleryImage
                                     key={src}
                                     src={src}
                                     alt={`${project.title} — ${src}`}
-                                    className="h-full"
-                                    style={{ height: "100%" }}
+                                    className={`h-[clamp(180px,24vh,300px)] lg:h-full ${
+                                      idx === row2.length - 1
+                                        ? "col-span-2 lg:col-span-1"
+                                        : ""
+                                    }`}
                                   />
                                 ))}
                               </div>

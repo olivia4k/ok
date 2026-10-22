@@ -17,9 +17,8 @@ export default function App() {
 
       <main>
         <Hero />
-        <div className="h-[25vh]" />
         <hr className="hr-rule" />
-        <div className="h-[20vh]" />
+        <div className="h-[8vh] md:h-[12vh] lg:h-[20vh]" />
 
         <Works />
         <div className="h-[25vh]" />

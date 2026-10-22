@@ -44,6 +44,17 @@ export function Footer() {
             >
               Impressum
             </a>
+            <div className="w-px h-3 bg-warm-mist hidden md:block" />
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 micro-caps text-warm-slate hover:text-warm-ink transition-colors"
+            >
+              <i className="fa-brands fa-facebook-f text-[0.6rem]" />
+              Facebook
+              <i className="fa-solid fa-arrow-up-right text-[0.5rem] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
           </div>
 
           <span className="micro-caps text-warm-slate hidden lg:block">

@@ -1,14 +1,5 @@
 import { RevealText } from "./Reveal";
 
-const socials = ["Facebook"];
-
-function scrollToSection(id: string) {
-  const target = document.querySelector(id);
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
-
 export function Contact() {
   return (
     <section id="contact" className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
@@ -33,37 +24,15 @@ export function Contact() {
             Zapraszam do kontaktu.
           </p>
 
-          <div className="space-y-6">
-            <a
-              href="mailto:olivia.klepacka@gmail.com"
-              className="group flex items-center gap-4 nav-link w-fit"
-            >
-              <i className="fa-regular fa-envelope text-warm-slate group-hover:text-warm-ink transition-colors" />
-              <span className="font-sans text-warm-ink font-light text-base lg:text-lg">
-                olivia.klepacka@gmail.com
-              </span>
-            </a>
-          </div>
-        </div>
-
-        <div className="lg:col-span-5 pt-4 lg:pt-16">
-          <div className="space-y-8">
-            <div className="flex items-center gap-6 pt-4">
-              {socials.map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("#contact");
-                  }}
-                  className="micro-caps text-warm-slate hover:text-warm-ink transition-colors nav-link"
-                >
-                  {social}
-                </a>
-              ))}
-            </div>
-          </div>
+          <a
+            href="mailto:olivia.klepacka@gmail.com"
+            className="group flex items-center gap-4 nav-link w-fit"
+          >
+            <i className="fa-regular fa-envelope text-warm-slate group-hover:text-warm-ink transition-colors" />
+            <span className="font-sans text-warm-ink font-light text-base lg:text-lg">
+              olivia.klepacka@gmail.com
+            </span>
+          </a>
         </div>
       </div>
     </section>

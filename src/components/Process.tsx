@@ -87,8 +87,8 @@ export function Process() {
           <div className="reveal-inner w-full h-full">
             <img
               className="w-full h-full object-cover"
-              src="/images/gost_1.png"
-              alt="Biurko architekta — rzuty, próbki materiałów, fragmenty kamienia i mosiądzu"
+              src="/images/probki.png"
+              alt="Próbki materiałów i wykończeń wnętrz"
             />
           </div>
         </RevealWrapper>
