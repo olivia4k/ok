@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      window.FontAwesomeConfig = { autoReplaceSvg: "nest" };
+    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "warm-paper": "#faf9f7",
+              "warm-mist": "#d8d4ce",
+              "warm-slate": "#807a72",
+              "warm-ink": "#1c1a17",
+            },
+            fontFamily: {
+              serif: ["Instrument Serif", "Georgia", "serif"],
+              sans: ["Work Sans", "system-ui", "sans-serif"],
+            },
+            letterSpacing: {
+              widest2: "0.3em",
+              widest3: "0.5em",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      body {
+        background-color: #faf9f7;
+        color: #1c1a17;
+        cursor: none;
+      }
+
+      /* Custom Cursor */
+      #custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #1c1a17;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.3s ease,
+          height 0.3s ease,
+          border-color 0.3s ease,
+          opacity 0.3s ease;
+      }
+      #custom-cursor.expanded {
+        width: 56px;
+        height: 56px;
+        border-color: #807a72;
+      }
+      #cursor-dot {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: #1c1a17;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.3s ease;
+      }
+
+      /* Sticky Sidebar */
+      #sticky-sidebar {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: translateY(-50%) rotate(180deg);
+      }
+
+      /* Image Reveal Animation */
+      .reveal-wrapper {
+        overflow: hidden;
+        position: relative;
+      }
+      .reveal-inner {
+        transform: translateY(60px);
+        opacity: 0;
+        transition:
+          transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.9s ease;
+      }
+      .reveal-inner.revealed {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Text reveal */
+      .text-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .text-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Project hover overlay */
+      .project-card .hover-info {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .project-card:hover .hover-info {
+        opacity: 1;
+      }
+      .project-card img,
+      .project-card .ai-img-wrapper {
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .project-card:hover img,
+      .project-card:hover .ai-img-wrapper {
+        transform: scale(1.03);
+      }
+
+      /* Nav links */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: #1c1a17;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Horizontal rules */
+      .hr-rule {
+        border: none;
+        border-top: 1px solid #1c1a17;
+        width: 100%;
+      }
+
+      /* Section marker */
+      .section-number {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(5rem, 12vw, 10rem);
+        line-height: 1;
+        color: #d8d4ce;
+        position: absolute;
+      }
+
+      /* Micro caps */
+      .micro-caps {
+        font-family: "Work Sans", sans-serif;
+        font-size: 0.6rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: #807a72;
+        font-weight: 500;
+      }
+
+      /* AI Image style */
+      AI-IMAGE,
+      ai-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-warm-paper text-warm-ink antialiased">
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <!-- Sticky Sidebar Navigation -->
+    <div
+      id="sticky-sidebar"
+      class="hidden lg:flex flex-col items-center gap-6 pl-5"
+    >
+      <span class="micro-caps text-warm-slate" id="sidebar-label"
+        >01 / OVERVIEW</span
+      >
+      <div class="w-px h-16 bg-warm-mist"></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header
+      id="header"
+      class="fixed top-0 left-0 right-0 z-50 bg-warm-paper bg-opacity-95 backdrop-blur-sm"
+    >
+      <div class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+        <div class="flex items-center justify-between py-6">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-px bg-warm-ink"></div>
+            <span class="font-serif italic text-sm tracking-wide text-warm-ink"
+              >Interior Architect Portfolio</span
+            >
+          </div>
+          <nav class="hidden md:flex items-center gap-10">
+            <a
+              href="#work"
+              class="nav-link micro-caps text-warm-ink hover:text-warm-slate transition-colors"
+              >Work</a
+            >
+            <a
+              href="#about"
+              class="nav-link micro-caps text-warm-ink hover:text-warm-slate transition-colors"
+              >Studio</a
+            >
+            <a
+              href="#contact"
+              class="nav-link micro-caps text-warm-ink hover:text-warm-slate transition-colors"
+              >Contact</a
+            >
+          </nav>
+          <div class="micro-caps text-warm-slate hidden lg:block">
+            Warsaw / London
+          </div>
+        </div>
+      </div>
+      <hr class="hr-rule" />
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative w-full pt-20">
+      <div class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+        <!-- Hero Top Label -->
+        <div class="pt-20 pb-10 flex justify-between items-start">
+          <div class="text-reveal">
+            <span class="micro-caps text-warm-slate"
+              >Selected Works — 2018–2025</span
+            >
+          </div>
+          <div class="text-reveal text-right hidden md:block">
+            <span class="micro-caps text-warm-slate"
+              >Interior Architecture &amp; Spatial Design</span
+            >
+          </div>
+        </div>
+
+        <!-- Hero Title -->
+        <div class="relative mb-12">
+          <h1
+            class="font-serif text-reveal"
+            style="
+              font-size: clamp(3.5rem, 10vw, 9rem);
+              line-height: 0.92;
+              letter-spacing: -0.02em;
+            "
+          >
+            Space as<br /><em class="italic">Language.</em>
+          </h1>
+          <div class="absolute right-0 bottom-0 hidden lg:block text-reveal">
+            <p
+              class="micro-caps text-warm-slate max-w-xs leading-relaxed text-right"
+            >
+              Each project begins with silence—<br />
+              an attentiveness to what the<br />
+              architecture already wants to say.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-bleed Hero Image -->
+      <div
+        class="reveal-wrapper w-full"
+        style="height: clamp(400px, 75vh, 850px)"
+      >
+        <div class="reveal-inner w-full h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+            alt="vast minimalist interior living space, raw concrete walls, tall floor-to-ceiling windows with diffus"
+          />
+        </div>
+      </div>
+
+      <!-- Hero Footer Bar -->
+      <div
+        class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 py-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4"
+      >
+        <div class="flex items-center gap-8">
+          <span class="micro-caps text-warm-slate">Scroll to explore</span>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-px bg-warm-mist"></div>
+            <i class="fa-solid fa-arrow-down text-warm-mist text-xs"></i>
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <span class="micro-caps text-warm-slate">14 Realized Projects</span>
+          <div class="w-px h-4 bg-warm-mist"></div>
+          <span class="micro-caps text-warm-slate">6 Countries</span>
+        </div>
+      </div>
+      <hr class="hr-rule" />
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[28vh]"></div>
+
+    <!-- Section 01: Selected Works -->
+    <section id="work" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <!-- Section Header -->
+      <div class="relative mb-16">
+        <hr class="hr-rule mb-8" />
+        <div
+          class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+        >
+          <div>
+            <span class="micro-caps text-warm-slate mb-4 block"
+              >01 / Realizacje</span
+            >
+            <h2
+              class="font-serif text-reveal"
+              style="font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.05"
+            >
+              Selected Works
+            </h2>
+          </div>
+          <p
+            class="micro-caps text-warm-slate max-w-xs leading-loose hidden md:block text-reveal"
+          >
+            Residential · Commercial · Cultural<br />Hospitality · Private
+            Commissions
+          </p>
+        </div>
+      </div>
+
+      <!-- Project Grid Row 1: Large Left + Two Right -->
+      <div
+        id="project-grid-1"
+        class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 mb-6"
+      >
+        <!-- Large Project -->
+        <div
+          class="lg:col-span-7 project-card reveal-wrapper cursor-none"
+          style="height: clamp(320px, 65vh, 700px)"
+        >
+          <div class="reveal-inner w-full h-full relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="luxury minimalist bedroom interior, warm plaster walls, integrated wardrobe, ambient indirect lighti"
+            />
+            <div
+              class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-8"
+            >
+              <div class="border-t border-warm-mist border-opacity-50 pt-4">
+                <p class="font-serif italic text-warm-paper text-2xl mb-2">
+                  Villa Nordica
+                </p>
+                <div class="flex gap-6">
+                  <span class="micro-caps text-warm-mist">Oslo, Norway</span>
+                  <span class="micro-caps text-warm-mist">2024</span>
+                  <span class="micro-caps text-warm-mist">Residential</span>
+                </div>
+              </div>
+            </div>
+            <!-- Gutter label -->
+            <div class="absolute top-6 left-6">
+              <span class="micro-caps text-warm-mist opacity-70">P.01</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Two Stacked -->
+        <div class="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
+          <div
+            class="project-card reveal-wrapper cursor-none flex-1"
+            style="height: clamp(200px, 30vh, 340px)"
+          >
+            <div class="reveal-inner w-full h-full relative">
+              <img
+                class="w-full h-full object-cover"
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+                alt="modern minimalist kitchen with marble island, brass fixtures, integrated appliances, warm natural li"
+              />
+              <div
+                class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-6"
+              >
+                <div class="border-t border-warm-mist border-opacity-50 pt-3">
+                  <p class="font-serif italic text-warm-paper text-xl mb-1">
+                    Apartment Kensington
+                  </p>
+                  <div class="flex gap-4">
+                    <span class="micro-caps text-warm-mist">London, UK</span>
+                    <span class="micro-caps text-warm-mist">2023</span>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute top-4 left-4">
+                <span class="micro-caps text-warm-mist opacity-70">P.02</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="project-card reveal-wrapper cursor-none flex-1"
+            style="height: clamp(200px, 30vh, 340px)"
+          >
+            <div class="reveal-inner w-full h-full relative">
+              <img
+                class="w-full h-full object-cover"
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+                alt="serene minimalist bathroom spa interior, terrazzo floor, rain shower, warm stone walls, indirect lig"
+              />
+              <div
+                class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-6"
+              >
+                <div class="border-t border-warm-mist border-opacity-50 pt-3">
+                  <p class="font-serif italic text-warm-paper text-xl mb-1">
+                    Thermal Residence
+                  </p>
+                  <div class="flex gap-4">
+                    <span class="micro-caps text-warm-mist">Zurich, CH</span>
+                    <span class="micro-caps text-warm-mist">2023</span>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute top-4 left-4">
+                <span class="micro-caps text-warm-mist opacity-70">P.03</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Grid Row 2: Full Width Panoramic -->
+      <div id="project-grid-2" class="mb-6">
+        <div
+          class="project-card reveal-wrapper cursor-none w-full"
+          style="height: clamp(250px, 45vh, 520px)"
+        >
+          <div class="reveal-inner w-full h-full relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="sweeping panoramic view of minimalist open plan living space, double height ceiling, raw concrete co"
+            />
+            <div
+              class="hover-info absolute inset-0 bg-warm-ink bg-opacity-15 flex flex-col justify-end p-10"
+            >
+              <div class="border-t border-warm-mist border-opacity-50 pt-4">
+                <p class="font-serif italic text-warm-paper text-3xl mb-2">
+                  Maison Brutale
+                </p>
+                <div class="flex gap-8">
+                  <span class="micro-caps text-warm-mist"
+                    >Marseille, France</span
+                  >
+                  <span class="micro-caps text-warm-mist">2024</span>
+                  <span class="micro-caps text-warm-mist"
+                    >Private Residence</span
+                  >
+                  <span class="micro-caps text-warm-mist">620 m²</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute top-6 right-8">
+              <span class="micro-caps text-warm-mist opacity-70"
+                >P.04 — Feature Project</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Grid Row 3: Three Equal -->
+      <div
+        id="project-grid-3"
+        class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6"
+      >
+        <div
+          class="project-card reveal-wrapper cursor-none"
+          style="height: clamp(260px, 42vh, 480px)"
+        >
+          <div class="reveal-inner w-full h-full relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="minimalist office interior design, linear timber shelving, linen upholstered seating, muted neutral "
+            />
+            <div
+              class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-6"
+            >
+              <div class="border-t border-warm-mist border-opacity-50 pt-3">
+                <p class="font-serif italic text-warm-paper text-xl mb-1">
+                  Studio Collective
+                </p>
+                <div class="flex gap-4">
+                  <span class="micro-caps text-warm-mist">Warsaw</span>
+                  <span class="micro-caps text-warm-mist">2022</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute top-4 left-4">
+              <span class="micro-caps text-warm-mist opacity-70">P.05</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="project-card reveal-wrapper cursor-none"
+          style="height: clamp(260px, 42vh, 480px)"
+        >
+          <div class="reveal-inner w-full h-full relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="intimate restaurant dining interior, arched niches, hand-plastered walls, warm candlelight, dark tim"
+            />
+            <div
+              class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-6"
+            >
+              <div class="border-t border-warm-mist border-opacity-50 pt-3">
+                <p class="font-serif italic text-warm-paper text-xl mb-1">
+                  Osteria Celeste
+                </p>
+                <div class="flex gap-4">
+                  <span class="micro-caps text-warm-mist">Milan, IT</span>
+                  <span class="micro-caps text-warm-mist">2023</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute top-4 left-4">
+              <span class="micro-caps text-warm-mist opacity-70">P.06</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="project-card reveal-wrapper cursor-none"
+          style="height: clamp(260px, 42vh, 480px)"
+        >
+          <div class="reveal-inner w-full h-full relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="contemporary gallery space interior, white walls, polished concrete floor, pinhole ceiling lighting,"
+            />
+            <div
+              class="hover-info absolute inset-0 bg-warm-ink bg-opacity-20 flex flex-col justify-end p-6"
+            >
+              <div class="border-t border-warm-mist border-opacity-50 pt-3">
+                <p class="font-serif italic text-warm-paper text-xl mb-1">
+                  Galerie Blanc
+                </p>
+                <div class="flex gap-4">
+                  <span class="micro-caps text-warm-mist">Paris, FR</span>
+                  <span class="micro-caps text-warm-mist">2022</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute top-4 left-4">
+              <span class="micro-caps text-warm-mist opacity-70">P.07</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[25vh]"></div>
+    <hr class="hr-rule" />
+    <div class="h-[20vh]"></div>
+
+    <!-- Section 02: About / Philosophy -->
+    <section id="about" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <div class="relative mb-16">
+        <span class="micro-caps text-warm-slate mb-4 block">02 / O mnie</span>
+      </div>
+
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start"
+      >
+        <!-- Left: Oversized Number + Portrait -->
+        <div class="lg:col-span-5 relative">
+          <div
+            class="section-number select-none"
+            style="top: -3rem; left: -1rem; z-index: 0"
+          >
+            02
+          </div>
+          <div
+            class="reveal-wrapper relative z-10 mt-8"
+            style="height: clamp(400px, 65vh, 720px)"
+          >
+            <div class="reveal-inner w-full h-full">
+              <img
+                class="w-full h-full object-cover"
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+                alt="interior designer architect woman standing in minimalist studio space, natural light, architectural "
+              />
+            </div>
+          </div>
+          <div class="mt-6 flex gap-8">
+            <div>
+              <p class="font-serif text-4xl mb-1">14</p>
+              <span class="micro-caps text-warm-slate">Years Practice</span>
+            </div>
+            <div class="w-px bg-warm-mist"></div>
+            <div>
+              <p class="font-serif text-4xl mb-1">6</p>
+              <span class="micro-caps text-warm-slate">Countries</span>
+            </div>
+            <div class="w-px bg-warm-mist"></div>
+            <div>
+              <p class="font-serif text-4xl mb-1">48</p>
+              <span class="micro-caps text-warm-slate">Projects</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Philosophy Text -->
+        <div class="lg:col-span-7 pt-4 lg:pt-24">
+          <h3
+            class="font-serif text-reveal mb-10"
+            style="font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1"
+          >
+            Architecture is the art of<br /><em>how we meet the ground.</em>
+          </h3>
+          <div class="w-16 h-px bg-warm-ink mb-10"></div>
+          <div class="space-y-6 text-reveal">
+            <p
+              class="font-sans font-light text-warm-slate leading-relaxed text-base lg:text-lg"
+            >
+              Interior Architect Portfolio operates at the intersection of
+              space, material, and atmosphere. Founded in Warsaw, the studio
+              works across residential, commercial, and cultural projects—each
+              one a precise response to its context.
+            </p>
+            <p
+              class="font-sans font-light text-warm-slate leading-relaxed text-base lg:text-lg"
+            >
+              We do not pursue a signature style. Instead, we pursue a quality
+              of attention—a slowness that allows the inherent logic of a space
+              to emerge. Materials are chosen for their honesty. Light is
+              considered before furniture. Silence is the beginning of every
+              brief.
+            </p>
+          </div>
+          <div class="mt-12 grid grid-cols-2 gap-8">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3"
+                >Specialisms</span
+              >
+              <ul class="space-y-2">
+                <li class="micro-caps text-warm-ink">
+                  Residential Architecture
+                </li>
+                <li class="micro-caps text-warm-ink">Hospitality Spaces</li>
+                <li class="micro-caps text-warm-ink">Cultural Institutions</li>
+                <li class="micro-caps text-warm-ink">Private Commissions</li>
+              </ul>
+            </div>
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3"
+                >Collaborators</span
+              >
+              <ul class="space-y-2">
+                <li class="micro-caps text-warm-ink">Lighting Design</li>
+                <li class="micro-caps text-warm-ink">Landscape Architecture</li>
+                <li class="micro-caps text-warm-ink">Art Consultation</li>
+                <li class="micro-caps text-warm-ink">Bespoke Fabrication</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[25vh]"></div>
+    <hr class="hr-rule" />
+    <div class="h-[20vh]"></div>
+
+    <!-- Section 03: Process -->
+    <section id="process" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <span class="micro-caps text-warm-slate mb-4 block">03 / Proces</span>
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between mb-20"
+      >
+        <h2
+          class="font-serif text-reveal"
+          style="font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.05"
+        >
+          Method &amp; Material
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+        <div class="border-l border-warm-mist pl-8 py-6 lg:py-0">
+          <span class="font-serif text-6xl text-warm-mist block mb-6">I.</span>
+          <span class="micro-caps text-warm-slate block mb-4">Discovery</span>
+          <p
+            class="font-sans font-light text-warm-slate text-sm leading-relaxed"
+          >
+            A period of deep listening. Site visits, archival research,
+            conversations about light and memory. No drawings yet.
+          </p>
+        </div>
+        <div class="border-l border-warm-mist pl-8 py-6 lg:py-0">
+          <span class="font-serif text-6xl text-warm-mist block mb-6">II.</span>
+          <span class="micro-caps text-warm-slate block mb-4">Concept</span>
+          <p
+            class="font-sans font-light text-warm-slate text-sm leading-relaxed"
+          >
+            A single spatial idea. Translated into sketches, material samples,
+            and light studies before any floor plan is drawn.
+          </p>
+        </div>
+        <div class="border-l border-warm-mist pl-8 py-6 lg:py-0">
+          <span class="font-serif text-6xl text-warm-mist block mb-6"
+            >III.</span
+          >
+          <span class="micro-caps text-warm-slate block mb-4">Resolution</span>
+          <p
+            class="font-sans font-light text-warm-slate text-sm leading-relaxed"
+          >
+            Technical drawings, material specifications, coordination with
+            engineers and craftspeople. Precision at every joint.
+          </p>
+        </div>
+        <div class="border-l border-warm-mist pl-8 py-6 lg:py-0">
+          <span class="font-serif text-6xl text-warm-mist block mb-6">IV.</span>
+          <span class="micro-caps text-warm-slate block mb-4">Delivery</span>
+          <p
+            class="font-sans font-light text-warm-slate text-sm leading-relaxed"
+          >
+            On-site presence throughout construction. The final act: placing
+            objects, adjusting light, allowing the space to breathe.
+          </p>
+        </div>
+      </div>
+
+      <!-- Process Image -->
+      <div
+        class="mt-16 reveal-wrapper w-full"
+        style="height: clamp(300px, 50vh, 600px)"
+      >
+        <div class="reveal-inner w-full h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+            alt="architect's desk flat lay, architectural drawings blueprints, material swatches, marble samples, bra"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[25vh]"></div>
+    <hr class="hr-rule" />
+    <div class="h-[20vh]"></div>
+
+    <!-- Section 04: Recent Feature -->
+    <section id="feature" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <span class="micro-caps text-warm-slate mb-4 block">04 / In Focus</span>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center mb-16"
+      >
+        <div class="lg:col-span-8">
+          <h2
+            class="font-serif text-reveal"
+            style="font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.05"
+          >
+            Penthouse Sopot<br /><em>— A Study in Restraint</em>
+          </h2>
+        </div>
+        <div class="lg:col-span-4">
+          <div class="space-y-4">
+            <div
+              class="flex justify-between items-center py-3 border-b border-warm-mist"
+            >
+              <span class="micro-caps text-warm-slate">Location</span>
+              <span class="micro-caps text-warm-ink">Sopot, Poland</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-3 border-b border-warm-mist"
+            >
+              <span class="micro-caps text-warm-slate">Year</span>
+              <span class="micro-caps text-warm-ink">2025</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-3 border-b border-warm-mist"
+            >
+              <span class="micro-caps text-warm-slate">Area</span>
+              <span class="micro-caps text-warm-ink">380 m²</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-3 border-b border-warm-mist"
+            >
+              <span class="micro-caps text-warm-slate">Materials</span>
+              <span class="micro-caps text-warm-ink"
+                >Limestone · Oak · Plaster</span
+              >
+            </div>
+            <div
+              class="flex justify-between items-center py-3 border-b border-warm-mist"
+            >
+              <span class="micro-caps text-warm-slate">Typology</span>
+              <span class="micro-caps text-warm-ink">Private Residence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Images -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+        <div
+          class="lg:col-span-8 reveal-wrapper"
+          style="height: clamp(320px, 65vh, 700px)"
+        >
+          <div class="reveal-inner w-full h-full">
+            <img
+              class="w-full h-full object-cover"
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+              alt="luxury penthouse interior living room, panoramic sea view windows, limestone flooring, minimalist oa"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-4 flex flex-col gap-4 lg:gap-6">
+          <div
+            class="reveal-wrapper flex-1"
+            style="height: clamp(200px, 30vh, 340px)"
+          >
+            <div class="reveal-inner w-full h-full">
+              <img
+                class="w-full h-full object-cover"
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+                alt="detail of minimalist interior material palette, travertine wall panel, brass fixture detail, warm am"
+              />
+            </div>
+          </div>
+          <div
+            class="reveal-wrapper flex-1"
+            style="height: clamp(200px, 30vh, 340px)"
+          >
+            <div class="reveal-inner w-full h-full">
+              <img
+                class="w-full h-full object-cover"
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/default-placeholder.png"
+                alt="minimalist master bedroom with ocean view, linen bedding, integrated headboard, natural plaster wall"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <p
+          class="font-sans font-light text-warm-slate leading-relaxed max-w-3xl text-base lg:text-lg"
+        >
+          The brief was radical in its simplicity: remove everything until what
+          remains is irreducible. The result is a 380-square-metre apartment on
+          the Baltic coast that breathes with the rhythm of the tides—limestone
+          floors that cool in the morning, oak panels that warm by evening, and
+          a view that makes every interior gesture secondary.
+        </p>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[25vh]"></div>
+    <hr class="hr-rule" />
+    <div class="h-[20vh]"></div>
+
+    <!-- Section 05: Recognition & Press -->
+    <section id="press" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <span class="micro-caps text-warm-slate mb-4 block"
+        >05 / Recognition</span
+      >
+      <h2
+        class="font-serif text-reveal mb-16"
+        style="font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.05"
+      >
+        Awards &amp; Press
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+        <div class="border-t border-warm-mist py-8 pr-8">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2024</span>
+              <p class="font-serif text-xl mb-2">
+                European Interior Design Award
+              </p>
+              <span class="micro-caps text-warm-slate"
+                >Residential Category — Gold</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+        <div
+          class="border-t border-warm-mist py-8 pl-0 md:pl-8 md:border-l border-warm-mist"
+        >
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2024</span>
+              <p class="font-serif text-xl mb-2">Wallpaper* Design Awards</p>
+              <span class="micro-caps text-warm-slate"
+                >Best Interior — Shortlisted</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+        <div class="border-t border-warm-mist py-8 pr-8">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2023</span>
+              <p class="font-serif text-xl mb-2">Dezeen Awards</p>
+              <span class="micro-caps text-warm-slate"
+                >Hospitality Interior — Winner</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+        <div
+          class="border-t border-warm-mist py-8 pl-0 md:pl-8 md:border-l border-warm-mist"
+        >
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2022</span>
+              <p class="font-serif text-xl mb-2">
+                Architectural Digest — AD100
+              </p>
+              <span class="micro-caps text-warm-slate"
+                >100 Most Influential Designers</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+        <div class="border-t border-b border-warm-mist py-8 pr-8">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2022</span>
+              <p class="font-serif text-xl mb-2">Frame Awards</p>
+              <span class="micro-caps text-warm-slate"
+                >Cultural Space of the Year</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+        <div
+          class="border-t border-b border-warm-mist py-8 pl-0 md:pl-8 md:border-l border-warm-mist"
+        >
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3">2021</span>
+              <p class="font-serif text-xl mb-2">
+                Elle Decoration International
+              </p>
+              <span class="micro-caps text-warm-slate"
+                >Designer of the Year — Poland</span
+              >
+            </div>
+            <i
+              class="fa-regular fa-circle-check text-warm-mist text-lg mt-1"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[25vh]"></div>
+    <hr class="hr-rule" />
+    <div class="h-[20vh]"></div>
+
+    <!-- Section 06: Contact -->
+    <section id="contact" class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+      <span class="micro-caps text-warm-slate mb-4 block">06 / Contact</span>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start"
+      >
+        <div class="lg:col-span-7">
+          <h2
+            class="font-serif text-reveal mb-8"
+            style="font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95"
+          >
+            Begin a<br /><em>Conversation.</em>
+          </h2>
+          <p
+            class="font-sans font-light text-warm-slate leading-relaxed text-base lg:text-lg max-w-xl mb-12"
+          >
+            We accept a small number of projects each year. If you have a space
+            that requires careful attention, we would be glad to hear about it.
+          </p>
+          <div class="space-y-6">
+            <a
+              href="mailto:studio@interiorarchitect.com"
+              class="group flex items-center gap-4 nav-link w-fit"
+            >
+              <i
+                class="fa-regular fa-envelope text-warm-slate group-hover:text-warm-ink transition-colors"
+              ></i>
+              <span
+                class="font-sans text-warm-ink font-light text-base lg:text-lg"
+                >studio@interiorarchitect.com</span
+              >
+            </a>
+            <a
+              href="tel:+48221234567"
+              class="group flex items-center gap-4 nav-link w-fit"
+            >
+              <i
+                class="fa-regular fa-phone text-warm-slate group-hover:text-warm-ink transition-colors"
+              ></i>
+              <span
+                class="font-sans text-warm-ink font-light text-base lg:text-lg"
+                >+48 22 123 45 67</span
+              >
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-5 pt-4 lg:pt-16">
+          <div class="space-y-8">
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3"
+                >Warsaw Studio</span
+              >
+              <p
+                class="font-sans font-light text-warm-slate leading-relaxed text-sm"
+              >
+                ul. Foksal 17<br />
+                00-372 Warszawa<br />
+                Poland
+              </p>
+            </div>
+            <div class="w-16 h-px bg-warm-mist"></div>
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3"
+                >London Office</span
+              >
+              <p
+                class="font-sans font-light text-warm-slate leading-relaxed text-sm"
+              >
+                14 Chiltern Street<br />
+                London W1U 7QA<br />
+                United Kingdom
+              </p>
+            </div>
+            <div class="w-16 h-px bg-warm-mist"></div>
+            <div>
+              <span class="micro-caps text-warm-slate block mb-3"
+                >Office Hours</span
+              >
+              <p class="font-sans font-light text-warm-slate text-sm">
+                Mon–Fri, 09:00–18:00 CET
+              </p>
+            </div>
+            <div class="flex items-center gap-6 pt-4">
+              <a
+                href="#"
+                class="micro-caps text-warm-slate hover:text-warm-ink transition-colors nav-link"
+                >Instagram</a
+              >
+              <a
+                href="#"
+                class="micro-caps text-warm-slate hover:text-warm-ink transition-colors nav-link"
+                >LinkedIn</a
+              >
+              <a
+                href="#"
+                class="micro-caps text-warm-slate hover:text-warm-ink transition-colors nav-link"
+                >Behance</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Massive White Space Buffer -->
+    <div class="h-[20vh]"></div>
+
+    <!-- Footer -->
+    <footer id="footer" class="w-full border-t border-warm-ink">
+      <div class="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 py-10">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-px bg-warm-ink"></div>
+            <span class="font-serif italic text-sm tracking-wide"
+              >Interior Architect Portfolio</span
+            >
+          </div>
+          <div class="flex flex-wrap items-center gap-6">
+            <span class="micro-caps text-warm-slate"
+              >© 2025 Interior Architect Portfolio</span
+            >
+            <div class="w-px h-3 bg-warm-mist hidden md:block"></div>
+            <a
+              href="#"
+              class="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
+              >Privacy</a
+            >
+            <div class="w-px h-3 bg-warm-mist hidden md:block"></div>
+            <a
+              href="#"
+              class="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
+              >Impressum</a
+            >
+          </div>
+          <span class="micro-caps text-warm-slate hidden lg:block"
+            >Warsaw · London · 2025</span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Custom Cursor
+      const cursor = document.getElementById("custom-cursor");
+      const dot = document.getElementById("cursor-dot");
+      let mouseX = 0,
+        mouseY = 0;
+      let cursorX = 0,
+        cursorY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + "px";
+        dot.style.top = mouseY + "px";
+      });
+
+      function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.12;
+        cursorY += (mouseY - cursorY) * 0.12;
+        cursor.style.left = cursorX + "px";
+        cursor.style.top = cursorY + "px";
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Expand cursor on project cards
+      document.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("mouseenter", () =>
+          cursor.classList.add("expanded"),
+        );
+        card.addEventListener("mouseleave", () =>
+          cursor.classList.remove("expanded"),
+        );
+      });
+
+      // Scroll Reveal with IntersectionObserver
+      const revealInners = document.querySelectorAll(
+        ".reveal-inner, .text-reveal",
+      );
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.classList.add("revealed");
+              }, 100);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -60px 0px" },
+      );
+
+      revealInners.forEach((el) => observer.observe(el));
+
+      // Sidebar Label Update
+      const sidebarLabel = document.getElementById("sidebar-label");
+      const sections = [
+        { id: "hero", label: "00 / INTRO" },
+        { id: "work", label: "01 / REALIZACJE" },
+        { id: "about", label: "02 / STUDIO" },
+        { id: "process", label: "03 / PROCES" },
+        { id: "contact", label: "04 / KONTAKT" },
+      ];
+
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const found = sections.find((s) => s.id === entry.target.id);
+              if (found && sidebarLabel) {
+                sidebarLabel.textContent = found.label;
+              }
+            }
+          });
+        },
+        { threshold: 0.3 },
+      );
+
+      sections.forEach((s) => {
+        const el = document.getElementById(s.id);
+        if (el) sectionObserver.observe(el);
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
