@@ -46,7 +46,7 @@ export function Footer() {
             </a>
             <div className="w-px h-3 bg-warm-mist hidden md:block" />
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/profile.php?id=61595879215127&locale=pl_PL"
               target="_blank"
               rel="noreferrer"
               className="group inline-flex items-center gap-2 micro-caps text-warm-slate hover:text-warm-ink transition-colors"
