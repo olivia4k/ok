@@ -51,7 +51,7 @@ export function Feature() {
             <div className="reveal-inner w-full h-full">
               <img
                 className="w-full h-full object-cover"
-                src="/images/hero.png"
+                src="/images/hero.webp"
                 alt="Luksusowy salon w penthouse'u z panoramicznym widokiem na morze i podłogą z wapienia"
               />
             </div>
@@ -62,7 +62,7 @@ export function Feature() {
             <div className="reveal-inner w-full h-full">
               <img
                 className="w-full h-full object-cover"
-                src="/images/hero.png"
+                src="/images/hero.webp"
                 alt="Detal materiałowy — płyta z trawertynu i element z mosiądzu"
               />
             </div>
@@ -71,7 +71,7 @@ export function Feature() {
             <div className="reveal-inner w-full h-full">
               <img
                 className="w-full h-full object-cover"
-                src="/images/hero.png"
+                src="/images/hero.webp"
                 alt="Minimalistyczna sypialnia główna z widokiem na ocean, lniana pościel"
               />
             </div>

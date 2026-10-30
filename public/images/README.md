@@ -1,19 +1,30 @@
 # Grafiki i zdjęcia
 
-Umieść pliki w tym folderze. Będą dostępne pod adresem `/images/<nazwa-pliku>`.
+Pliki z tego katalogu są kopiowane do builda i dostępne pod adresem
+`/images/<nazwa-pliku>`.
 
-| Nazwa pliku | Sekcja | Sugerowany temat / opis alt |
-|---|---|---|
-| `hero.jpg` | Hero | Przestronne minimalistyczne wnętrze dzienne, surowe ściany, wysokie okna |
-| `villa-nordica.jpg` | Realizacje — P.01 | Luksusowa sypialnia, ciepłe tynki, zabudowa |
-| `apartment-kensington.jpg` | Realizacje — P.02 | Nowoczesna kuchnia z marmurową wyspą i mosiężnymi detalami |
-| `thermal-residence.jpg` | Realizacje — P.03 | Łazienka spa z terazzo, ciepłe kamienne ściany |
-| `maison-brutale.jpg` | Realizacje — P.04 | Panoramiczne wnętrze z podwójną wysokością, surowy beton |
-| `studio-collective.jpg` | Realizacje — P.05 | Minimalistyczne biuro, drewniane regały, neutralne barwy |
-| `osteria-celeste.jpg` | Realizacje — P.06 | Intymna restauracja z wnękami, tynk, świece |
-| `galerie-blanc.jpg` | Realizacje — P.07 | Współczesna galeria, białe ściany, lico betonu |
-| `studio-portrait.jpg` | Studio | Portret architekta wnętrz w minimalistycznej pracowni |
-| `process-desk.jpg` | Proces | Biurko architekta — rysunki, próbki materiałów |
-| `penthouse-living.jpg` | W fokusie | Salon penthouse'u z widokiem na morze, wapień |
-| `penthouse-detail.jpg` | W fokusie | Detal materiałowy — trawertyn, mosiądz |
-| `penthouse-bedroom.jpg` | W fokusie | Sypialnia z widokiem na ocean, lniana pościel |
+## Zdjęcia wykorzystywane na stronie
+
+| Pliki | Miejsce na stronie | Opis alt |
+| --- | --- | --- |
+| `zoliborz_5.png` | Hero | Minimalistyczne wnętrze dzienne z betonowymi ścianami i wysokimi oknami — projekt wnętrz Toruń |
+| `zytnia_1.png` – `zytnia_6.png` | Realizacja „Żytnia” | Projekt wnętrz domu w Toruniu — zdjęcia realizacji |
+| `zoliborz_1.png`, `zoliborz_3.png`, `zoliborz_4.png`, `zoliborz_5.png`, `zoliborz_6.png` | Realizacja „Żoliborz” | Projekt wnętrz mieszkania na Żoliborzu w Warszawie — zdjęcia realizacji |
+| `zoliborz_6.png` | Sekcja „O mnie” | Wnętrze pracowni architektki wnętrz |
+| `antoniewska_2.png`, `antoniewska_3.png` | Realizacja „Antoniewska” | Projekt wnętrz mieszkania przy ul. Antoniewskiej w Warszawie |
+| `probki.png` | Sekcja „Proces” | Próbki materiałów i wykończeń wnętrz |
+
+## Pliki rezerwowe
+
+| Pliki | Przeznaczenie |
+| --- | --- |
+| `antoniewska_6.png`, `antoniewska_7.png` | Materiały do realizacji „Antoniewska” — do wykorzystania przy rozbudowie galerii |
+| `hero.png` | Zdjęcie zapasowe do sekcji głównej |
+| `gost_1.png` | Zdjęcie zapasowe do sekcji „Proces” |
+| `zoliborz_2.png` | Zdjęcie zapasowe do realizacji „Żoliborz” |
+
+## Zasady nazywania plików
+
+Nowe zdjęcia nazywaj opisowo, małymi literami i bez polskich znaków, np.
+`projekt-wnetrz-torun-salony-1.webp`. Nazwa pliku jest jednym z sygnałów
+wykorzystywanych przez Google do rozpoznania treści zdjęcia.

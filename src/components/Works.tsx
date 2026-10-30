@@ -63,6 +63,12 @@ function orientationFor(src: string): Orientation {
   return IMAGE_ORIENTATIONS[filenameOf(src)] ?? "landscape";
 }
 
+function projectAlt(project: Project, view?: string) {
+  const location = project.location ? `, ${project.location}` : "";
+  const base = `Projekt wnętrz — ${project.title}${location}`;
+  return view ? `${base} — ${view}` : base;
+}
+
 function GalleryImage({
   src,
   alt,
@@ -82,6 +88,7 @@ function GalleryImage({
           src={src}
           alt={alt}
           loading="lazy"
+          decoding="async"
         />
       </div>
     </RevealWrapper>
@@ -139,7 +146,7 @@ export function Works() {
               {rest.length === 0 ? (
                 <GalleryImage
                   src={featured}
-                  alt={project.title}
+                  alt={projectAlt(project, "widok główny")}
                   className="w-full"
                   style={{ height: SIZE_HEIGHTS[sizeFor(featured, "lg")] }}
                 />
@@ -163,13 +170,13 @@ export function Works() {
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
                         <GalleryImage
                           src={featured}
-                          alt={`${project.title} — główne zdjęcie`}
+                          alt={projectAlt(project, "widok główny")}
                           className={`${featuredSpan} ${flip ? "lg:order-2" : ""}`}
                           style={{ height: SIZE_HEIGHTS[featuredSize] }}
                         />
                         <GalleryImage
                           src={pair}
-                          alt={`${project.title} — ${pair}`}
+                          alt={projectAlt(project, "widok 2")}
                           className={`${pairSpan} ${flip ? "lg:order-1" : ""}`}
                           style={{ height: SIZE_HEIGHTS[featuredSize] }}
                         />
@@ -185,7 +192,7 @@ export function Works() {
                                   <GalleryImage
                                     key={src}
                                     src={src}
-                                    alt={`${project.title} — ${src}`}
+                                    alt={projectAlt(project, "zdjęcie z realizacji")}
                                     className={`h-[clamp(180px,24vh,300px)] lg:h-full ${
                                       idx === row2.length - 1
                                         ? "col-span-2 lg:col-span-1"
@@ -209,7 +216,7 @@ export function Works() {
                                 <GalleryImage
                                   key={src}
                                   src={src}
-                                  alt={`${project.title} — ${src}`}
+                                  alt={projectAlt(project, "zdjęcie z realizacji")}
                                   className="w-full"
                                   style={{
                                     height: SIZE_HEIGHTS[sizeFor(src, "sm")],
@@ -228,7 +235,7 @@ export function Works() {
                                     <GalleryImage
                                       key={src}
                                       src={src}
-                                      alt={`${project.title} — ${src}`}
+                                      alt={projectAlt(project, "zdjęcie z realizacji")}
                                       className="h-full"
                                       style={{ height: "100%" }}
                                     />
@@ -246,7 +253,7 @@ export function Works() {
                   {/* Featured largest image */}
                   <GalleryImage
                     src={featured}
-                    alt={`${project.title} — główne zdjęcie`}
+                    alt={projectAlt(project, "widok główny")}
                     className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}
                     style={{ height: SIZE_HEIGHTS[sizeFor(featured, "lg")] }}
                   />
@@ -296,7 +303,7 @@ export function Works() {
                                 <GalleryImage
                                   key={src}
                                   src={src}
-                                  alt={`${project.title} — ${src}`}
+                                  alt={projectAlt(project, "zdjęcie z realizacji")}
                                   className="h-full"
                                   style={{ height: "100%" }}
                                 />
@@ -311,7 +318,7 @@ export function Works() {
                           <GalleryImage
                             key={src}
                             src={src}
-                            alt={`${project.title} — ${src}`}
+                            alt={projectAlt(project, "zdjęcie z realizacji")}
                             className="w-full"
                             style={{ height: SIZE_HEIGHTS[sizeKey] }}
                           />

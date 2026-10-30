@@ -30,8 +30,14 @@ export function Footer() {
             </span>
             <div className="w-px h-3 bg-warm-mist hidden md:block" />
             <a
-              href="#"
-              onClick={(e) => e.preventDefault()}
+              href="/architekt-wnetrz-torun.html"
+              className="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
+            >
+              Architekt wnętrz Toruń
+            </a>
+            <div className="w-px h-3 bg-warm-mist hidden md:block" />
+            <a
+              href="/prywatnosc.html"
               className="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
             >
               Prywatność

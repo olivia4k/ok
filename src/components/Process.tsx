@@ -87,8 +87,10 @@ export function Process() {
           <div className="reveal-inner w-full h-full">
             <img
               className="w-full h-full object-cover"
-              src="/images/probki.png"
-              alt="Próbki materiałów i wykończeń wnętrz"
+              src="/images/probki.webp"
+              alt="Próbki materiałów i wykończeń wnętrz — projektowanie wnętrz Toruń"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </RevealWrapper>

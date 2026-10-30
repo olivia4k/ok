@@ -8,12 +8,12 @@ export function Hero() {
         <div className="pt-20 pb-10 flex justify-between items-start">
           <RevealText>
             <span className="micro-caps text-warm-slate">
-              mgr inź. arch. Olivia Klepacka
+              mgr inż. arch. Olivia Klepacka
             </span>
           </RevealText>
           <RevealText className="text-right hidden md:block">
             <span className="micro-caps text-warm-slate">
-              Architektura wnętrz i projektowanie przestrzeni
+              Projektowanie i nadzór wnętrz · Toruń
             </span>
           </RevealText>
         </div>
@@ -44,8 +44,10 @@ export function Hero() {
         <div className="reveal-inner w-full h-full">
           <img
             className="w-full h-full object-cover"
-            src="/images/zoliborz_5.png"
-            alt="Przestronne minimalistyczne wnętrze dzienne, surowe ściany z betonu, wysokie okna od podłogi do sufitu"
+            src="/images/zoliborz_5.webp"
+            alt="Minimalistyczne wnętrze dzienne z betonowymi ścianami i wysokimi oknami — projekt wnętrz Toruń"
+            fetchPriority="high"
+            decoding="async"
           />
         </div>
       </RevealWrapper>
@@ -56,10 +58,7 @@ export function Hero() {
           <span className="micro-caps text-warm-slate">
             Przewiń, aby odkrywać
           </span>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-px bg-warm-mist" />
-            <i className="fa-solid fa-arrow-down text-warm-mist text-xs" />
-          </div>
+          <div className="w-8 h-px bg-warm-mist" />
         </div>
       </div>
     </section>

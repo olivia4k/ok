@@ -29,8 +29,10 @@ export function About() {
               <div className="reveal-inner w-full h-full">
                 <img
                   className="w-full h-full object-cover"
-                  src="/images/zoliborz_6.png"
-                  alt="Architekt wnętrz w minimalistycznej pracowni, naturalne światło"
+                  src="/images/zoliborz_6.webp"
+                  alt="Architektka wnętrz w minimalistycznej pracowni w Toruniu — naturalne światło"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </RevealWrapper>

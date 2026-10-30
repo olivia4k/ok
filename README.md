@@ -39,4 +39,5 @@ Każdy push do gałęzi main będzie automatycznie przebudowywał stronę.
 
 ## Assety
 
-Własne obrazki wrzuć do `public/images/` zgodnie z listą nazw w `public/images/README.md`. Do czasu podmiany strona się zbuduje, ale obrazki będą niedostępne.
+Zdjęcia znajdują się w `public/images/`. Pełna lista plików, ich zastosowań
+i proponowanych opisów alt znajduje się w `public/images/README.md`.

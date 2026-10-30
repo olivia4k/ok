@@ -1,4 +1,3 @@
-import { AnalyticsNotice } from "./components/AnalyticsNotice";
 import { CustomCursor } from "./components/CustomCursor";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
@@ -41,7 +40,6 @@ export default function App() {
       </main>
 
       <Footer />
-      <AnalyticsNotice />
     </>
   );
 }

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /prywatnosc.html
+
+Sitemap: https://bylsobieprojekt.pl/sitemap.xml
