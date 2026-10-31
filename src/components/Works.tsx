@@ -155,15 +155,23 @@ export function Works() {
                 /* Two-row layout: featured + pair in row 1 (same height), rest in row 2 */
                 (() => {
                   const pair = project.pairImage;
-                  const row2 = rest.filter((src) => src !== pair);
+                  const extraPair = project.extraPairImage;
+                  const row2 = rest.filter(
+                    (src) => src !== pair && src !== extraPair,
+                  );
                   const featuredPortrait =
                     orientationFor(featured) === "portrait";
-                  const featuredSpan = featuredPortrait
-                    ? "lg:col-span-5"
-                    : "lg:col-span-7";
-                  const pairSpan = featuredPortrait
-                    ? "lg:col-span-7"
-                    : "lg:col-span-5";
+                  const hasExtraPair = Boolean(extraPair);
+                  const featuredSpan = hasExtraPair
+                    ? "lg:col-span-6"
+                    : featuredPortrait
+                      ? "lg:col-span-5"
+                      : "lg:col-span-7";
+                  const pairSpan = hasExtraPair
+                    ? "lg:col-span-3"
+                    : featuredPortrait
+                      ? "lg:col-span-7"
+                      : "lg:col-span-5";
                   const featuredSize: SizeKey = featuredPortrait ? "xl" : "lg";
                   return (
                     <div className="flex flex-col gap-4 lg:gap-6">
@@ -181,6 +189,14 @@ export function Works() {
                           className={`${pairSpan} ${flip ? "lg:order-1" : ""}`}
                           style={{ height: SIZE_HEIGHTS[featuredSize] }}
                         />
+                        {extraPair && (
+                          <GalleryImage
+                            src={extraPair}
+                            alt={projectAlt(project, "widok 3")}
+                            className="lg:col-span-3"
+                            style={{ height: SIZE_HEIGHTS[featuredSize] }}
+                          />
+                        )}
                       </div>
                       {/* Row 2: remaining images */}
                       {row2.length > 0 &&

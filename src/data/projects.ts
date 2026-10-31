@@ -15,6 +15,7 @@ export interface Project {
   layout: "large" | "small";
   badge?: string;
   pairImage?: string;
+  extraPairImage?: string;
   flatRow2?: boolean;
 }
 
@@ -59,8 +60,13 @@ export const projects: Project[] = [
     type: "Mieszkanie",
     location: "Warszawa",
     year: "2025",
-    images: ["/images/antoniewska_2.webp", "/images/antoniewska_3.webp"],
+    images: [
+      "/images/antoniewska_2.webp",
+      "/images/antoniewska_3.webp",
+      "/images/antoniewska_7.webp",
+    ],
     layout: "small",
     pairImage: "/images/antoniewska_3.webp",
+    extraPairImage: "/images/antoniewska_7.webp",
   },
 ];
