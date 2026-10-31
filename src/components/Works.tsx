@@ -22,33 +22,34 @@ function ProjectMeta({ project }: { project: Project }) {
   );
 }
 
-type SizeKey = "xs" | "sm" | "md" | "lg" | "xl";
+type SizeKey = "xs" | "sm" | "md" | "mdTall" | "lg" | "xl";
 type Orientation = "portrait" | "landscape";
 
 const SIZE_HEIGHTS: Record<SizeKey, string> = {
   xs: "clamp(120px, 16vh, 200px)",
   sm: "clamp(180px, 24vh, 300px)",
   md: "clamp(240px, 34vh, 420px)",
+  mdTall: "clamp(280px, 40vh, 480px)",
   lg: "clamp(320px, 52vh, 600px)",
   xl: "clamp(420px, 75vh, 820px)",
 };
 
 // Per-image size overrides — keys are image filenames (last path segment).
 const IMAGE_SIZE_OVERRIDES: Record<string, SizeKey> = {
-  "zoliborz_5.png": "lg", // szerokie ujęcie — większe
-  "zytnia_2.png": "md", // nieco wyższe
+  "zoliborz_5.webp": "lg", // szerokie ujęcie — większe
+  "zytnia_2.webp": "mdTall", // nieco wyższe
 };
 
 // Per-image orientation overrides (defaults to landscape). Keys are filenames.
 const IMAGE_ORIENTATIONS: Record<string, Orientation> = {
-  "zoliborz_6.png": "portrait",
-  "zoliborz_3.png": "portrait",
-  "zoliborz_4.png": "portrait",
-  "zytnia_3.png": "portrait",
-  "zytnia_4.png": "portrait",
-  "zytnia_5.png": "portrait",
-  "zytnia_6.png": "portrait",
-  "antoniewska_3.png": "portrait",
+  "zoliborz_6.webp": "portrait",
+  "zoliborz_3.webp": "portrait",
+  "zoliborz_4.webp": "portrait",
+  "zytnia_3.webp": "portrait",
+  "zytnia_4.webp": "portrait",
+  "zytnia_5.webp": "portrait",
+  "zytnia_6.webp": "portrait",
+  "antoniewska_3.webp": "portrait",
 };
 
 function filenameOf(src: string): string {
@@ -210,6 +211,12 @@ export function Works() {
                           const landscapes = row2.filter(
                             (src) => orientationFor(src) !== "portrait",
                           );
+                          const portraitColsClass =
+                            portraits.length >= 3
+                              ? "md:grid-cols-3"
+                              : portraits.length === 2
+                                ? "md:grid-cols-2"
+                                : "md:grid-cols-1";
                           return (
                             <>
                               {landscapes.map((src) => (
@@ -225,19 +232,14 @@ export function Works() {
                               ))}
                               {portraits.length > 0 && (
                                 <div
-                                  className="grid gap-4 lg:gap-6"
-                                  style={{
-                                    gridTemplateColumns: `repeat(${portraits.length}, minmax(0, 1fr))`,
-                                    height: SIZE_HEIGHTS.md,
-                                  }}
+                                  className={`grid grid-cols-1 gap-4 lg:gap-6 ${portraitColsClass}`}
                                 >
                                   {portraits.map((src) => (
                                     <GalleryImage
                                       key={src}
                                       src={src}
                                       alt={projectAlt(project, "zdjęcie z realizacji")}
-                                      className="h-full"
-                                      style={{ height: "100%" }}
+                                      className="h-[clamp(320px,55vh,520px)] md:h-[clamp(480px,68vh,720px)]"
                                     />
                                   ))}
                                 </div>
