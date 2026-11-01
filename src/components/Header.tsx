@@ -7,9 +7,10 @@ function scrollToSection(id: string) {
 
 interface HeaderProps {
   currentLabel?: string;
+  logoVisible?: boolean;
 }
 
-export function Header({ currentLabel }: HeaderProps) {
+export function Header({ currentLabel, logoVisible = true }: HeaderProps) {
   const navItems = [
     { label: "Wybrane realizacje", href: "#work" },
     { label: "O mnie", href: "#about" },
@@ -29,7 +30,10 @@ export function Header({ currentLabel }: HeaderProps) {
               e.preventDefault();
               scrollToSection("#hero");
             }}
-            className="flex items-center gap-3"
+            data-header-logo
+            className={`flex items-center gap-3 transition-opacity duration-500 ${
+              logoVisible ? "opacity-100" : "opacity-0"
+            }`}
           >
             <div className="w-6 h-px bg-warm-ink" />
             <span className="font-serif italic text-sm tracking-wide text-warm-ink">
