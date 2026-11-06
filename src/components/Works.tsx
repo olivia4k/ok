@@ -1,4 +1,4 @@
-import type { Project } from "../data/projects";
+import type { GalleryRow, Project } from "../data/projects";
 import { projects } from "../data/projects";
 import { RevealText, RevealWrapper } from "./Reveal";
 
@@ -49,8 +49,13 @@ const IMAGE_ORIENTATIONS: Record<string, Orientation> = {
   "zytnia_4.webp": "portrait",
   "zytnia_5.webp": "portrait",
   "zytnia_6.webp": "portrait",
+  "zytnia_7.webp": "portrait",
   "antoniewska_3.webp": "portrait",
 };
+
+// Wysokości zdjęć portretowych w galerii.
+const PORTRAIT_HEIGHT =
+  "h-[clamp(320px,55vh,520px)] md:h-[clamp(480px,68vh,720px)]";
 
 function filenameOf(src: string): string {
   return src.split("/").pop() ?? "";
@@ -93,6 +98,134 @@ function GalleryImage({
         />
       </div>
     </RevealWrapper>
+  );
+}
+
+function DefaultGalleryRows({
+  project,
+  row2,
+}: {
+  project: Project;
+  row2: string[];
+}) {
+  if (row2.length === 0) return null;
+
+  const alt = projectAlt(project, "zdjęcie z realizacji");
+
+  // Flat single row: all images in one grid
+  if (project.flatRow2) {
+    return (
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-[1fr_1fr_2fr] lg:gap-6 lg:h-[clamp(320px,52vh,600px)]">
+        {row2.map((src, idx) => (
+          <GalleryImage
+            key={src}
+            src={src}
+            alt={alt}
+            className={`h-[clamp(180px,24vh,300px)] lg:h-full ${
+              idx === row2.length - 1 ? "col-span-2 lg:col-span-1" : ""
+            }`}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Split: landscapes full width, portraits grouped
+  const portraits = row2.filter((src) => orientationFor(src) === "portrait");
+  const landscapes = row2.filter((src) => orientationFor(src) !== "portrait");
+  const portraitColsClass =
+    portraits.length >= 3
+      ? "md:grid-cols-3"
+      : portraits.length === 2
+        ? "md:grid-cols-2"
+        : "md:grid-cols-1";
+
+  return (
+    <>
+      {landscapes.map((src) => (
+        <GalleryImage
+          key={src}
+          src={src}
+          alt={alt}
+          className="w-full"
+          style={{ height: SIZE_HEIGHTS[sizeFor(src, "sm")] }}
+        />
+      ))}
+      {portraits.length > 0 && (
+        <div className={`grid grid-cols-1 gap-4 lg:gap-6 ${portraitColsClass}`}>
+          {portraits.map((src) => (
+            <GalleryImage
+              key={src}
+              src={src}
+              alt={alt}
+              className={PORTRAIT_HEIGHT}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+function CustomGalleryRow({
+  project,
+  row,
+}: {
+  project: Project;
+  row: GalleryRow;
+}) {
+  const mobile = row.mobile ?? row.desktop;
+  const alt = projectAlt(project, "zdjęcie z realizacji");
+
+  // Rząd z samych portretów dostaje wysokość portretową, mieszany — wysokość
+  // wynikającą z pierwszego (poziomego) zdjęcia.
+  const desktopPortraitsOnly = row.desktop.every(
+    (src) => orientationFor(src) === "portrait",
+  );
+  const mobilePortraitsOnly = mobile.every(
+    (src) => orientationFor(src) === "portrait",
+  );
+
+  return (
+    <div className="flex flex-col gap-4 lg:gap-6">
+      {/* Desktop: cały rząd obok siebie */}
+      <div
+        className={`hidden lg:grid gap-4 lg:gap-6 ${
+          desktopPortraitsOnly ? PORTRAIT_HEIGHT : ""
+        }`}
+        style={{
+          gridTemplateColumns: `repeat(${row.desktop.length}, minmax(0, 1fr))`,
+          height: desktopPortraitsOnly
+            ? undefined
+            : SIZE_HEIGHTS[sizeFor(row.desktop[0], "md")],
+        }}
+      >
+        {row.desktop.map((src) => (
+          <GalleryImage key={src} src={src} alt={alt} className="h-full" />
+        ))}
+      </div>
+
+      {/* Mobile: jedno zdjęcie na całą szerokość albo pionowe zdjęcia po dwa */}
+      <div
+        className={`grid lg:hidden gap-4 ${
+          mobile.length === 1 ? "grid-cols-1" : "grid-cols-2 items-start"
+        }`}
+        style={
+          mobilePortraitsOnly
+            ? undefined
+            : { height: SIZE_HEIGHTS[sizeFor(mobile[0], "md")] }
+        }
+      >
+        {mobile.map((src) => (
+          <GalleryImage
+            key={src}
+            src={src}
+            alt={alt}
+            className={mobilePortraitsOnly ? "aspect-[2/3]" : "h-full"}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -156,9 +289,11 @@ export function Works() {
                 (() => {
                   const pair = project.pairImage;
                   const extraPair = project.extraPairImage;
-                  const row2 = rest.filter(
-                    (src) => src !== pair && src !== extraPair,
-                  );
+                  const row2 = project.galleryRows
+                    ? []
+                    : rest.filter(
+                        (src) => src !== pair && src !== extraPair,
+                      );
                   const featuredPortrait =
                     orientationFor(featured) === "portrait";
                   const hasExtraPair = Boolean(extraPair);
@@ -173,96 +308,67 @@ export function Works() {
                       ? "lg:col-span-7"
                       : "lg:col-span-5";
                   const featuredSize: SizeKey = featuredPortrait ? "xl" : "lg";
+                  const row1Height = SIZE_HEIGHTS[featuredSize];
+                  // Mobile: featured na całą szerokość, para + extraPair po dwa.
+                  const mobilePair = Boolean(project.mobilePairRow1 && hasExtraPair);
+                  const mobilePairClass =
+                    "col-span-1 aspect-[3/4] lg:aspect-auto lg:h-[var(--row1-h)]";
+                  const mobilePairStyle = {
+                    "--row1-h": row1Height,
+                  } as React.CSSProperties;
                   return (
                     <div className="flex flex-col gap-4 lg:gap-6">
                       {/* Row 1: featured + pair — same height */}
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
+                      <div
+                        className={`grid ${
+                          mobilePair ? "grid-cols-2" : "grid-cols-1"
+                        } lg:grid-cols-12 gap-4 lg:gap-6 items-start lg:items-stretch`}
+                      >
                         <GalleryImage
                           src={featured}
                           alt={projectAlt(project, "widok główny")}
-                          className={`${featuredSpan} ${flip ? "lg:order-2" : ""}`}
-                          style={{ height: SIZE_HEIGHTS[featuredSize] }}
+                          className={`${mobilePair ? "col-span-2" : ""} ${featuredSpan} ${
+                            flip ? "lg:order-2" : ""
+                          }`}
+                          style={{ height: row1Height }}
                         />
                         <GalleryImage
                           src={pair}
                           alt={projectAlt(project, "widok 2")}
-                          className={`${pairSpan} ${flip ? "lg:order-1" : ""}`}
-                          style={{ height: SIZE_HEIGHTS[featuredSize] }}
+                          className={`${mobilePair ? mobilePairClass : ""} ${pairSpan} ${
+                            flip ? "lg:order-1" : ""
+                          }`}
+                          style={
+                            mobilePair
+                              ? mobilePairStyle
+                              : { height: row1Height }
+                          }
                         />
                         {extraPair && (
                           <GalleryImage
                             src={extraPair}
                             alt={projectAlt(project, "widok 3")}
-                            className="lg:col-span-3"
-                            style={{ height: SIZE_HEIGHTS[featuredSize] }}
+                            className={`${mobilePair ? mobilePairClass : ""} lg:col-span-3`}
+                            style={
+                              mobilePair
+                                ? mobilePairStyle
+                                : { height: row1Height }
+                            }
                           />
                         )}
                       </div>
                       {/* Row 2: remaining images */}
-                      {row2.length > 0 &&
-                        (() => {
-                          // Flat single row: all images in one grid
-                          if (project.flatRow2) {
-                            return (
-                              <div className="grid grid-cols-2 gap-4 lg:grid-cols-[1fr_1fr_2fr] lg:gap-6 lg:h-[clamp(320px,52vh,600px)]">
-                                {row2.map((src, idx) => (
-                                  <GalleryImage
-                                    key={src}
-                                    src={src}
-                                    alt={projectAlt(project, "zdjęcie z realizacji")}
-                                    className={`h-[clamp(180px,24vh,300px)] lg:h-full ${
-                                      idx === row2.length - 1
-                                        ? "col-span-2 lg:col-span-1"
-                                        : ""
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            );
-                          }
-                          // Split: landscapes full width, portraits grouped
-                          const portraits = row2.filter(
-                            (src) => orientationFor(src) === "portrait",
-                          );
-                          const landscapes = row2.filter(
-                            (src) => orientationFor(src) !== "portrait",
-                          );
-                          const portraitColsClass =
-                            portraits.length >= 3
-                              ? "md:grid-cols-3"
-                              : portraits.length === 2
-                                ? "md:grid-cols-2"
-                                : "md:grid-cols-1";
-                          return (
-                            <>
-                              {landscapes.map((src) => (
-                                <GalleryImage
-                                  key={src}
-                                  src={src}
-                                  alt={projectAlt(project, "zdjęcie z realizacji")}
-                                  className="w-full"
-                                  style={{
-                                    height: SIZE_HEIGHTS[sizeFor(src, "sm")],
-                                  }}
-                                />
-                              ))}
-                              {portraits.length > 0 && (
-                                <div
-                                  className={`grid grid-cols-1 gap-4 lg:gap-6 ${portraitColsClass}`}
-                                >
-                                  {portraits.map((src) => (
-                                    <GalleryImage
-                                      key={src}
-                                      src={src}
-                                      alt={projectAlt(project, "zdjęcie z realizacji")}
-                                      className="h-[clamp(320px,55vh,520px)] md:h-[clamp(480px,68vh,720px)]"
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                            </>
-                          );
-                        })()}
+                      {project.galleryRows ? (
+                        project.galleryRows.map((row) => (
+                          <CustomGalleryRow
+                            key={row.desktop.join("-")}
+                            project={project}
+                            row={row}
+                          />
+                        ))
+                      ) : (
+                        <DefaultGalleryRows project={project} row2={row2} />
+                      )}
                     </div>
                   );
                 })()
