@@ -25,10 +25,6 @@ export function Footer() {
           </a>
 
           <div className="flex flex-wrap items-center gap-6">
-            <span className="micro-caps text-warm-slate">
-              © 2025 Portfolio architekta wnętrz
-            </span>
-            <div className="w-px h-3 bg-warm-mist hidden md:block" />
             <a
               href="/architekt-wnetrz-torun.html"
               className="micro-caps text-warm-slate hover:text-warm-ink transition-colors"

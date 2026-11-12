@@ -7,7 +7,7 @@ Pliki z tego katalogu są kopiowane do builda i dostępne pod adresem
 
 | Pliki | Miejsce na stronie | Opis alt |
 | --- | --- | --- |
-| `zoliborz_5.png` | Hero | Minimalistyczne wnętrze dzienne z betonowymi ścianami i wysokimi oknami — projekt wnętrz Toruń |
+| `zytnia_3.png` | Hero | Przedpokój z łukowym przejściem, drewnianą podłogą w jodełkę i schodami — projekt wnętrz domu w Toruniu |
 | `zytnia_1.png` – `zytnia_7.png` | Realizacja „Żytnia” | Projekt wnętrz domu w Toruniu — zdjęcia realizacji |
 | `zoliborz_1.png`, `zoliborz_3.png`, `zoliborz_4.png`, `zoliborz_5.png`, `zoliborz_6.png` | Realizacja „Żoliborz” | Projekt wnętrz mieszkania na Żoliborzu w Warszawie — zdjęcia realizacji |
 | `zoliborz_6.png` | Sekcja „O mnie” | Wnętrze pracowni architektki wnętrz |

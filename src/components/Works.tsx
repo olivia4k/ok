@@ -1,4 +1,9 @@
-import type { GalleryRow, Project } from "../data/projects";
+import type {
+  GalleryMobileRow,
+  GalleryRow,
+  GalleryRowSize,
+  Project,
+} from "../data/projects";
 import { projects } from "../data/projects";
 import { RevealText, RevealWrapper } from "./Reveal";
 
@@ -22,7 +27,7 @@ function ProjectMeta({ project }: { project: Project }) {
   );
 }
 
-type SizeKey = "xs" | "sm" | "md" | "mdTall" | "lg" | "xl";
+type SizeKey = GalleryRowSize;
 type Orientation = "portrait" | "landscape";
 
 const SIZE_HEIGHTS: Record<SizeKey, string> = {
@@ -174,57 +179,96 @@ function CustomGalleryRow({
   project: Project;
   row: GalleryRow;
 }) {
-  const mobile = row.mobile ?? row.desktop;
   const alt = projectAlt(project, "zdjęcie z realizacji");
 
   // Rząd z samych portretów dostaje wysokość portretową, mieszany — wysokość
-  // wynikającą z pierwszego (poziomego) zdjęcia.
+  // wynikającą z pierwszego (poziomego) zdjęcia, chyba że podano `size`.
   const desktopPortraitsOnly = row.desktop.every(
     (src) => orientationFor(src) === "portrait",
   );
-  const mobilePortraitsOnly = mobile.every(
-    (src) => orientationFor(src) === "portrait",
-  );
+  const desktopHeight = row.size
+    ? SIZE_HEIGHTS[row.size]
+    : desktopPortraitsOnly
+      ? undefined
+      : SIZE_HEIGHTS[sizeFor(row.desktop[0], "md")];
+  const desktopColumns = (row.ratios ?? row.desktop.map(() => 1))
+    .map((ratio) => `${ratio}fr`)
+    .join(" ");
+
+  const mobileRows: GalleryMobileRow[] = row.mobileRows ?? [
+    { images: row.desktop },
+  ];
 
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       {/* Desktop: cały rząd obok siebie */}
       <div
         className={`hidden lg:grid gap-4 lg:gap-6 ${
-          desktopPortraitsOnly ? PORTRAIT_HEIGHT : ""
+          !row.size && desktopPortraitsOnly ? PORTRAIT_HEIGHT : ""
         }`}
-        style={{
-          gridTemplateColumns: `repeat(${row.desktop.length}, minmax(0, 1fr))`,
-          height: desktopPortraitsOnly
-            ? undefined
-            : SIZE_HEIGHTS[sizeFor(row.desktop[0], "md")],
-        }}
+        style={{ gridTemplateColumns: desktopColumns, height: desktopHeight }}
       >
         {row.desktop.map((src) => (
           <GalleryImage key={src} src={src} alt={alt} className="h-full" />
         ))}
       </div>
 
-      {/* Mobile: jedno zdjęcie na całą szerokość albo pionowe zdjęcia po dwa */}
-      <div
-        className={`grid lg:hidden gap-4 ${
-          mobile.length === 1 ? "grid-cols-1" : "grid-cols-2 items-start"
-        }`}
-        style={
-          mobilePortraitsOnly
-            ? undefined
-            : { height: SIZE_HEIGHTS[sizeFor(mobile[0], "md")] }
-        }
-      >
-        {mobile.map((src) => (
-          <GalleryImage
-            key={src}
-            src={src}
-            alt={alt}
-            className={mobilePortraitsOnly ? "aspect-[2/3]" : "h-full"}
-          />
-        ))}
-      </div>
+      {/* Mobile: kolejne rzędy z `mobileRows` */}
+      {mobileRows.map((mobileRow, rowIdx) => {
+        const images = mobileRow.images;
+        const ratios = mobileRow.ratios;
+        // Pary o zadanych szerokościach: naturalne proporcje, równa wysokość.
+        const columns = ratios
+          ? ratios.map((ratio) => `${ratio}fr`).join(" ")
+          : images.length > 1
+            ? "repeat(2, minmax(0, 1fr))"
+            : "1fr";
+        // Bez proporcji przy nieparzystej liczbie zdjęć pierwsze bierze całość.
+        const spanFirst = !ratios && images.length > 1 && images.length % 2 === 1;
+
+        return (
+          <div
+            key={`${rowIdx}-${images.join("-")}`}
+            className={`grid lg:hidden gap-4 ${
+              ratios ? "items-stretch" : "items-start"
+            }`}
+            style={{ gridTemplateColumns: columns }}
+          >
+            {images.map((src, idx) => {
+              const portrait = orientationFor(src) === "portrait";
+              const fullWidth =
+                images.length === 1 || (spanFirst && idx === 0);
+
+              if (ratios && !fullWidth) {
+                return (
+                  <GalleryImage
+                    key={src}
+                    src={src}
+                    alt={alt}
+                    className="h-full"
+                  />
+                );
+              }
+
+              return (
+                <GalleryImage
+                  key={src}
+                  src={src}
+                  alt={alt}
+                  className={`${spanFirst && idx === 0 ? "col-span-2" : ""} ${
+                    portrait ? "aspect-[2/3]" : ""
+                  }`}
+                  style={
+                    portrait
+                      ? undefined
+                      : { height: SIZE_HEIGHTS[sizeFor(src, "md")] }
+                  }
+                />
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -307,7 +351,8 @@ export function Works() {
                     : featuredPortrait
                       ? "lg:col-span-7"
                       : "lg:col-span-5";
-                  const featuredSize: SizeKey = featuredPortrait ? "xl" : "lg";
+                  const featuredSize: SizeKey =
+                    project.featuredSize ?? (featuredPortrait ? "xl" : "lg");
                   const row1Height = SIZE_HEIGHTS[featuredSize];
                   // Mobile: featured na całą szerokość, para + extraPair po dwa.
                   const mobilePair = Boolean(project.mobilePairRow1 && hasExtraPair);
@@ -335,9 +380,9 @@ export function Works() {
                         <GalleryImage
                           src={pair}
                           alt={projectAlt(project, "widok 2")}
-                          className={`${mobilePair ? mobilePairClass : ""} ${pairSpan} ${
-                            flip ? "lg:order-1" : ""
-                          }`}
+                          className={`${mobilePair ? mobilePairClass : ""} ${
+                            project.mobileHidePair ? "hidden lg:block" : ""
+                          } ${pairSpan} ${flip ? "lg:order-1" : ""}`}
                           style={
                             mobilePair
                               ? mobilePairStyle

@@ -22,7 +22,7 @@ export default function App() {
       <Sidebar />
 
       <main>
-        <Hero />
+        <Hero introDone={introDone} />
         <hr className="hr-rule" />
         <div className="h-[8vh] md:h-[12vh] lg:h-[20vh]" />
 
