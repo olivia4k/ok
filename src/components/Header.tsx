@@ -14,6 +14,7 @@ export function Header({ currentLabel, logoVisible = true }: HeaderProps) {
   const navItems = [
     { label: "Wybrane realizacje", href: "#work" },
     { label: "O mnie", href: "#about" },
+    { label: "Proces", href: "#process" },
     { label: "Kontakt", href: "#contact" },
   ];
 

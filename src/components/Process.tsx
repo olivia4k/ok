@@ -27,7 +27,7 @@ export function Process() {
   return (
     <section
       id="process"
-      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16"
+      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 scroll-mt-24"
     >
       <span className="micro-caps text-warm-slate mb-4 block">03 / Proces</span>
       <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">

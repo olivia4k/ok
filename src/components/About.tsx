@@ -13,7 +13,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16"
+      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 scroll-mt-24"
     >
       <div className="relative mb-16">
         <span className="micro-caps text-warm-slate mb-4 block">

@@ -13,23 +13,23 @@ const TITLE_STYLE: CSSProperties = {
 };
 
 /**
- * Zdjęcie tytułowe zajmuje 72% szerokości treści (klasa `lg:w-[72%]`),
- * a biała kopia tytułu jest przycinana od lewej na 100% − 72% = 28%.
- * Te dwie wartości muszą zostać spójne.
+ * Zdjęcie tytułowe: na desktopie 72% szerokości treści po prawej,
+ * na mobile poziomy kadr na całą szerokość. Biała kopia tytułu jest
+ * przycinana do prostokąta zdjęcia na desktopie (patrz `.hero-title-on-image`
+ * w index.css — 28% = 100% − 72%).
  */
-const IMAGE_CLIP_LEFT = "28%";
-const IMAGE_HEIGHT = "clamp(400px, 75vh, 850px)";
+const IMAGE_HEIGHT_CLASS = "lg:h-[clamp(400px,75vh,850px)]";
 
 export function Hero({ introDone }: { introDone: boolean }) {
   return (
     <section
       id="hero"
-      className="relative w-full pt-20"
+      className="relative w-full pt-16 lg:pt-20"
       data-started={introDone ? "true" : "false"}
     >
       <div className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
         {/* Hero Top Label */}
-        <div className="pt-20 pb-10 flex justify-between items-start">
+        <div className="pt-6 pb-6 lg:pt-20 lg:pb-10 flex justify-between items-start">
           <RevealText>
             <span className="micro-caps text-warm-slate">
               mgr inż. arch. Olivia Klepacka
@@ -44,17 +44,17 @@ export function Hero({ introDone }: { introDone: boolean }) {
 
         {/*
           Zdjęcie pojawia się pierwsze (delikatny zoom + fade), tytuł chwilę
-          po nim. Biała kopia tytułu nad zdjęciem jest przycięta do jego
-          prostokąta, więc tylko litery znajdujące się na zdjęciu są białe.
+          po nim — biały, na zdjęciu. Na desktopie tytuł zaczyna się poza
+          zdjęciem (ciemny na papierze), a jego końcówka leży na zdjęciu.
         */}
-        <div className="relative" style={{ minHeight: IMAGE_HEIGHT }}>
-          <h1 className="hero-title font-serif" style={TITLE_STYLE}>
+        <div className="relative lg:min-h-[clamp(400px,75vh,850px)]">
+          {/* Ciemny tytuł — tylko desktop; na mobile tytuł jest biały na zdjęciu */}
+          <h1 className="hero-title hidden lg:block font-serif" style={TITLE_STYLE}>
             <em className="italic">Był sobie projekt</em>
           </h1>
 
           <div
-            className="hero-image relative z-10 mt-10 w-full overflow-hidden lg:absolute lg:top-0 lg:right-0 lg:mt-0 lg:w-[72%]"
-            style={{ height: IMAGE_HEIGHT }}
+            className={`hero-image relative z-10 aspect-[8/7] w-full overflow-hidden max-lg:-mx-8 max-lg:w-auto lg:absolute lg:top-0 lg:right-0 lg:aspect-auto lg:w-[72%] ${IMAGE_HEIGHT_CLASS}`}
           >
             <img
               className="w-full h-full object-cover object-top"
@@ -65,14 +65,12 @@ export function Hero({ introDone }: { introDone: boolean }) {
             />
           </div>
 
-          {/* Biała kopia tytułu — widoczna wyłącznie na zdjęciu */}
+          {/* Biała kopia tytułu — na mobile nad całym zdjęciem, na desktopie
+              przycięta do jego prostokąta */}
           <h1
             aria-hidden="true"
-            className="hero-title hidden lg:block absolute left-0 right-0 top-0 z-20 font-serif text-white pointer-events-none select-none"
-            style={{
-              ...TITLE_STYLE,
-              clipPath: `inset(0 0 0 ${IMAGE_CLIP_LEFT})`,
-            }}
+            className="hero-title hero-title-on-image absolute left-0 right-0 top-0 z-20 font-serif text-white pointer-events-none select-none max-lg:-left-8 max-lg:-right-8 max-lg:p-6"
+            style={TITLE_STYLE}
           >
             <em className="italic">Był sobie projekt</em>
           </h1>

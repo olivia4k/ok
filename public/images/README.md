@@ -8,7 +8,7 @@ Pliki z tego katalogu są kopiowane do builda i dostępne pod adresem
 | Pliki | Miejsce na stronie | Opis alt |
 | --- | --- | --- |
 | `zytnia_3.png` | Hero | Przedpokój z łukowym przejściem, drewnianą podłogą w jodełkę i schodami — projekt wnętrz domu w Toruniu |
-| `zytnia_1.png` – `zytnia_7.png` | Realizacja „Żytnia” | Projekt wnętrz domu w Toruniu — zdjęcia realizacji |
+| `zytnia_1.png` – `zytnia_10.png` | Realizacja „Żytnia” | Projekt wnętrz domu w Toruniu — zdjęcia realizacji |
 | `zoliborz_1.png`, `zoliborz_3.png`, `zoliborz_4.png`, `zoliborz_5.png`, `zoliborz_6.png` | Realizacja „Żoliborz” | Projekt wnętrz mieszkania na Żoliborzu w Warszawie — zdjęcia realizacji |
 | `zoliborz_6.png` | Sekcja „O mnie” | Wnętrze pracowni architektki wnętrz |
 | `antoniewska_2.png`, `antoniewska_3.png`, `antoniewska_7.png` | Realizacja „Antoniewska” | Projekt wnętrz mieszkania przy ul. Antoniewskiej w Warszawie |

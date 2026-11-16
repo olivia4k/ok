@@ -104,7 +104,7 @@ export function Loader({ onDone }: LoaderProps) {
               <span
                 key={`${char}-${index}`}
                 className="intro-char"
-                style={{ transitionDelay: `${index * 38}ms` }}
+                style={{ transitionDelay: `${index * 45}ms` }}
               >
                 {char === " " ? "\u00A0" : char}
               </span>

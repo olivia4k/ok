@@ -55,6 +55,8 @@ const IMAGE_ORIENTATIONS: Record<string, Orientation> = {
   "zytnia_5.webp": "portrait",
   "zytnia_6.webp": "portrait",
   "zytnia_7.webp": "portrait",
+  "zytnia_9.webp": "portrait",
+  "zytnia_10.webp": "portrait",
   "antoniewska_3.webp": "portrait",
 };
 
@@ -277,8 +279,10 @@ export function Works() {
   return (
     <section
       id="work"
-      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16"
+      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 scroll-mt-24"
     >
+      {/* Alias kotwicy: /realizacje przekierowuje tutaj */}
+      <span id="realizacje" aria-hidden="true" className="block scroll-mt-24" />
       {/* Section Header */}
       <div className="relative mb-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">

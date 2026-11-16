@@ -73,6 +73,8 @@ export const projects: Project[] = [
       "/images/zytnia_5.webp",
       "/images/zytnia_6.webp",
       "/images/zytnia_7.webp",
+      "/images/zytnia_9.webp",
+      "/images/zytnia_10.webp",
     ],
     layout: "large",
     pairImage: "/images/zytnia_3.webp",
@@ -97,6 +99,18 @@ export const projects: Project[] = [
               "/images/zytnia_5.webp",
               "/images/zytnia_4.webp",
             ],
+          },
+        ],
+      },
+      // Zytnia_9 (węższe, pionowe) obok zytnia_10 — na mobile na końcu.
+      {
+        desktop: ["/images/zytnia_9.webp", "/images/zytnia_10.webp"],
+        ratios: [2, 3],
+        size: "xl",
+        mobileRows: [
+          {
+            images: ["/images/zytnia_9.webp", "/images/zytnia_10.webp"],
+            ratios: [2, 3],
           },
         ],
       },

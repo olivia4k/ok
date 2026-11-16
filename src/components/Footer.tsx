@@ -26,6 +26,13 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center gap-6">
             <a
+              href="/realizacje/"
+              className="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
+            >
+              Realizacje
+            </a>
+            <div className="w-px h-3 bg-warm-mist hidden md:block" />
+            <a
               href="/architekt-wnetrz-torun.html"
               className="micro-caps text-warm-slate hover:text-warm-ink transition-colors"
             >

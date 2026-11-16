@@ -2,7 +2,10 @@ import { RevealText } from "./Reveal";
 
 export function Contact() {
   return (
-    <section id="contact" className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16">
+    <section
+      id="contact"
+      className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 scroll-mt-24"
+    >
       <span className="micro-caps text-warm-slate mb-4 block">04 / Kontakt</span>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
         <div className="lg:col-span-7">
