@@ -59,7 +59,7 @@ export function Hero({ introDone }: { introDone: boolean }) {
             <img
               className="w-full h-full object-cover object-top"
               src="/images/zytnia_3.webp"
-              alt="Przedpokój z łukowym przejściem, drewnianą podłogą w jodełkę i schodami — projekt wnętrz domu w Toruniu"
+              alt="Przedpokój — projekt wnętrz Toruń"
               fetchPriority="high"
               decoding="async"
             />
@@ -78,13 +78,17 @@ export function Hero({ introDone }: { introDone: boolean }) {
       </div>
 
       {/* Hero Footer Bar */}
-      <div className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 py-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <div className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 py-8 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
         <div className="flex items-center gap-8">
-          <span className="micro-caps text-warm-slate">
+          <span className="micro-caps text-warm-slate" data-nosnippet>
             Przewiń, aby odkrywać
           </span>
           <div className="w-8 h-px bg-warm-mist" />
         </div>
+        <p className="max-w-md text-sm font-light leading-relaxed text-warm-slate/90">
+          Projektowanie wnętrz mieszkalnych i komercyjnych — od koncepcji i
+          dokumentacji po nadzór nad realizacją. Toruń i okolice.
+        </p>
       </div>
     </section>
   );

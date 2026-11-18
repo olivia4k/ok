@@ -37,7 +37,10 @@ export function Header({ currentLabel, logoVisible = true }: HeaderProps) {
             }`}
           >
             <div className="w-6 h-px bg-warm-ink" />
-            <span className="font-serif italic text-sm tracking-wide text-warm-ink">
+            <span
+              className="font-serif italic text-sm tracking-wide text-warm-ink"
+              data-nosnippet
+            >
               Był sobie projekt
             </span>
           </a>

@@ -16,7 +16,7 @@ export function About() {
       className="w-full max-w-screen-2xl mx-auto px-8 lg:px-16 scroll-mt-24"
     >
       <div className="relative mb-16">
-        <span className="micro-caps text-warm-slate mb-4 block">
+        <span className="micro-caps text-warm-slate mb-4 block" data-nosnippet>
           02 / O mnie
         </span>
       </div>
@@ -24,7 +24,7 @@ export function About() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
         {/* Left: Portrait */}
         <div className="lg:col-span-5 relative">
-          <div className="relative z-10 mt-8">
+          <div className="relative z-10 mt-8 max-lg:hidden">
             <RevealWrapper style={{ height: "clamp(480px, 80vh, 900px)" }}>
               <div className="reveal-inner w-full h-full">
                 <img

@@ -287,7 +287,7 @@ export function Works() {
       <div className="relative mb-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <span className="micro-caps text-warm-slate mb-4 block">
+            <span className="micro-caps text-warm-slate mb-4 block" data-nosnippet>
               01 / Realizacje
             </span>
             <RevealText>
